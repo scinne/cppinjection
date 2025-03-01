@@ -3,7 +3,7 @@
 
 A Project to investigate file injection methods for Vape Lite related bypasses such as Word RunPE, Elite Loader etc.
 
-##Issues I currently have with the project:
+## Issues I currently have with the project:
 - Fileless doesn't work?/Windows doesn't allow it to work?/Need to revert Windows update?/Only works on certain Windows versions?
 - Creating a C# Loader for Vape lite (All previous attempts have failed so far)
 - Achieving true Fileless. No temp files or anything on disk at all, everything to memory.
