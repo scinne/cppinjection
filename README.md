@@ -1,24 +1,77 @@
-$url = "https://github.com/scinne/cppinjection/raw/refs/tags/test/578d2bfa.exe"
-$exeBytes = Invoke-WebRequest -Uri $url -OutFile "program.exe"; $exeBytes = [System.IO.File]::ReadAllBytes("program.exe")
 
+# C++ File Injection (WIP) (Vape Lite)
 
-$kernel32 = Add-Type -Name "Kernel32" -Namespace "WinAPI" -MemberDefinition @"
-    using System;
-    using System.Runtime.InteropServices;
-    public class Kernel32 {
-        [DllImport("kernel32.dll", SetLastError = true)]
-        public static extern IntPtr VirtualAlloc(IntPtr lpAddress, uint dwSize, uint flAllocationType, uint flProtect);
-        [DllImport("kernel32.dll", SetLastError = true)]
-        public static extern bool WriteProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, byte[] lpBuffer, uint nSize, out uint lpNumberOfBytesWritten);
-        [DllImport("kernel32.dll", SetLastError = true)]
-        public static extern IntPtr CreateRemoteThread(IntPtr hProcess, IntPtr lpThreadAttributes, uint dwStackSize, IntPtr lpStartAddress, IntPtr lpParameter, uint dwCreationFlags, out IntPtr lpThreadId);
-        [DllImport("kernel32.dll")]
-        public static extern IntPtr GetCurrentProcess();
+A Project to investigate file injection methods for Vape Lite related bypasses such as Word RunPE, Elite Loader etc.
+
+Example Code for Temp File Memory Execution
+
+```Add-Type @"
+using System;
+using System.Runtime.InteropServices;
+using System.Text;
+
+public class Win32 {
+    // Define CreateProcess function
+    [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
+    public static extern bool CreateProcess(
+        string lpApplicationName,
+        string lpCommandLine,
+        IntPtr lpProcessAttributes,
+        IntPtr lpThreadAttributes,
+        bool bInheritHandles,
+        uint dwCreationFlags,
+        IntPtr lpEnvironment,
+        string lpCurrentDirectory,
+        ref STARTUPINFO lpStartupInfo,
+        out PROCESS_INFORMATION lpProcessInformation
+    );
+
+    // Define STARTUPINFO structure
+    [StructLayout(LayoutKind.Sequential)]
+    public struct STARTUPINFO {
+        public uint cb;
+        public string lpReserved;
+        public string lpDesktop;
+        public string lpTitle;
+        public uint dwX;
+        public uint dwY;
+        public uint dwXSize;
+        public uint dwYSize;
+        public uint dwXCountChars;
+        public uint dwYCountChars;
+        public uint dwFillAttribute;
+        public uint dwFlags;
+        public ushort wShowWindow;
+        public ushort cbReserved2;
+        public IntPtr lpReserved2;
+        public IntPtr hStdInput;
+        public IntPtr hStdOutput;
+        public IntPtr hStdError;
     }
+
+    // Define PROCESS_INFORMATION structure
+    [StructLayout(LayoutKind.Sequential)]
+    public struct PROCESS_INFORMATION {
+        public IntPtr hProcess;
+        public IntPtr hThread;
+        public uint dwProcessId;
+        public uint dwThreadId;
+    }
+}
 "@
-$allocationSize = [uint32]$exeBytes.Length
-$allocationAddress = [WinAPI.Kernel32]::VirtualAlloc([IntPtr]::Zero, $allocationSize, 0x1000, 0x40)
-[WinAPI.Kernel32]::WriteProcessMemory([WinAPI.Kernel32]::GetCurrentProcess(), $allocationAddress, $exeBytes, $allocationSize, [ref]0)
 
+# URL of Vape Lite, From Github Release
+$fileUrl = "https://github.com/scinne/cppinjection/releases/download/test/578d2bfa.exe"
 
-[WinAPI.Kernel32]::CreateRemoteThread([WinAPI.Kernel32]::GetCurrentProcess(), [IntPtr]::Zero, 0, $allocationAddress, [IntPtr]::Zero, 0, [ref][IntPtr]::Zero)
+# Download File Contents of Vape Lite into Memory
+$fileContent = Invoke-WebRequest -Uri $fileUrl -Method Get
+
+# The content is now available in $fileContent.Content as a byte array
+$byteArray = $fileContent.Content
+
+# Write the content to a temporary file
+$tempFilePath = [System.IO.Path]::GetTempFileName() + ".exe"
+[System.IO.File]::WriteAllBytes($tempFilePath, $byteArray)
+
+#Runs Vape Lite within Memory Via $tempFilePath Method
+Invoke-Expression -Command $tempFilePath```
