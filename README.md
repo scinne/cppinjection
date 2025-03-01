@@ -3,7 +3,16 @@
 
 A Project to investigate file injection methods for Vape Lite related bypasses such as Word RunPE, Elite Loader etc.
 
-Example Code for Temp File Memory Execution (Main.cs)
+##Issues I currently have with the project:
+- Fileless doesn't work?/Windows doesn't allow it to work?/Need to revert Windows update?/Only works on certain Windows versions?
+- Creating a C# Loader for Vape lite (All previous attempts have failed so far)
+- Achieving true Fileless. No temp files or anything on disk at all, everything to memory.
+- Figuring out whether a C# loader is even needed for Vape lite
+- Basically just questioning myself and if I am even sane
+- I need help.
+- Picking the right method for memory execution. I think Reflection Assembly is the way to go but I'm not sure how to get it to WORK...
+  
+Example Code for Temp File Memory Execution (Main.cs):
 
 ```Add-Type @"
 using System;
