@@ -18,7 +18,7 @@ A Project to investigate file injection methods for Vape Lite related bypasses s
 - I need help.
 - Picking the right method for memory execution. I think Reflection Assembly is the way to go but I'm not sure how to get it to WORK...
   
-Example Code for Temp File Memory Execution (Main.cs):
+Currently working temp file memory execution method (Main.ps1):
 
 ```Add-Type @"
 using System;
