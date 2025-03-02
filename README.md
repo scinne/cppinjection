@@ -18,7 +18,7 @@ A Project to investigate file injection methods for Vape Lite related bypasses s
 - I need help.
 - Picking the right method for memory execution. I think Reflection Assembly is the way to go but I'm not sure how to get it to WORK...
   
-Currently working temp file memory execution method (Main.ps1):
+Currently working temp file memory execution script (Main.ps1):
 ```
 Add-Type @"
 using System;
@@ -90,3 +90,5 @@ $tempFilePath = [System.IO.Path]::GetTempFileName() + ".exe"
 
 #Runs Vape Lite within Memory Via $tempFilePath Method
 Invoke-Expression -Command $tempFilePath
+```
+# THIS IS NOT A BYPASS METHOD, IT IS SIMPLY A INJECTION METHOD IN TESTING FOR EDUCATIONAL AND FORENSICS STUDY PURPOSES
