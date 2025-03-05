@@ -66,4 +66,4 @@ $tempFilePath = [System.IO.Path]::GetTempFileName() + ".exe"
 [System.IO.File]::WriteAllBytes($tempFilePath, $byteArray)
 
 #Runs Vape Lite within Memory Via $tempFilePath Method
-Invoke-Expression -Command $tempFilePath```
+Invoke-Expression -Command $tempFilePath
