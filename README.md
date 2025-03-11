@@ -86,3 +86,4 @@ $tempFilePath = [System.IO.Path]::GetTempFileName() + ".exe"
 Invoke-Expression -Command $tempFilePath
 ```
 # THIS IS NOT A BYPASS METHOD, IT IS SIMPLY A INJECTION METHOD IN TESTING FOR EDUCATIONAL AND FORENSICS STUDY PURPOSES
+This also does NOT work in a screenshare.
