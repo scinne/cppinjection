@@ -1,4 +1,8 @@
 
+Update: I have finished this project. Figured out what I did wrong lmao and it all worked out
+
+
+
 # C++ File Injection (WIP) (Vape Lite)
 
 A Project to investigate file injection methods for Vape Lite related bypasses such as Word RunPE, Elite Loader etc.
