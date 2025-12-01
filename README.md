@@ -17,6 +17,7 @@ A Project to investigate file injection methods for Vape Lite related bypasses s
 - im stuck?
 
 Currently working temp file memory execution script (Main.ps1):
+(This works, just keeps a temp file. Last commit before this has files + SRC for no temp file)
 ```
 Add-Type @"
 using System;
